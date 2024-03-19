@@ -9,21 +9,27 @@ interface Feature {
   properties: Property;
 }
 
-interface GeoJson {
+export interface GeoJson {
   features: Feature[];
   type: string;
 }
 
+export interface MapItem {
+  name: string;
+}
+
 type BaseChartProps = {
   options: EChartOption;
-  geoData: GeoJson;
+  geoData?: GeoJson;
   country: string;
+  handler: (params: MapItem) => void;
 };
 
 export const Charts: React.FC<BaseChartProps> = ({
   options,
-  geoData,
+  geoData = {},
   country,
+  handler,
 }) => {
   const chartRef = useRef<HTMLInputElement>(null);
   const [chart, setChart] = useState<ECharts>();
@@ -41,6 +47,7 @@ export const Charts: React.FC<BaseChartProps> = ({
     const newChart = echarts?.init(chartRef?.current as HTMLDivElement);
     echarts.registerMap(country, geoData);
     newChart.setOption(options, true);
+    newChart.on("click", handler);
     window.addEventListener("resize", handleResize);
     setChart(newChart);
   };

@@ -1,32 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { EChartOption } from "echarts";
-import { Charts } from "./Charts";
-import { JapanJson } from "../assets/japan";
-// import Tokyo from "../assets/map_data/東京都.json";
+import { Charts, GeoJson, MapItem } from "./Charts";
+import { getEnName } from "../assets/name_map";
 
 interface TravelData {
   name: string;
   value: number;
 }
 
-const country = "Tokyo";
-
 const Map: React.FC = () => {
   const [options, setOptions] = useState<EChartOption>({});
+  const [region, setRegion] = useState("Japan");
+  const [geoData, setGeoData] = useState<GeoJson>();
   const [travelData, setTravelData] = useState<TravelData[]>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await import("../assets/mockup_data/japan_data.json");
-        setTravelData(response.default);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const fetchData = async (name: string) => {
+    try {
+      const response = await import(`../assets/mockup_data/${name}.json`);
+      setTravelData(response.default);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchData();
-  }, []);
+  const fetchGeo = async (name: string) => {
+    try {
+      const response = await import(`../assets/map_data/${name}.json`);
+      setGeoData(response.default);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handler = (params: MapItem) => {
+    const _county = getEnName(params.name);
+    console.log(_county);
+    setRegion(_county);
+  };
+
+  useEffect(() => {
+    fetchData(region);
+    fetchGeo(region);
+  }, [region]);
 
   useEffect(() => {
     setOptions({
@@ -45,21 +60,9 @@ const Map: React.FC = () => {
         {
           left: "right",
           min: 0,
-          max: 10,
+          max: 5,
           inRange: {
-            color: [
-              "#4575b4",
-              "#313695",
-              // "#74add1",
-              // "#abd9e9",
-              // "#e0f3f8",
-              // "#ffffbf",
-              // "#fee090",
-              // "#fdae61",
-              // "#f46d43",
-              // "#d73027",
-              // "#a50026",
-            ],
+            color: ["#fff", "yellow", "orangered"],
           },
           // text: ["High", "Low"],
           calculable: true,
@@ -81,19 +84,28 @@ const Map: React.FC = () => {
           name: "Journeys",
           type: "map",
           roam: true,
-          map: country,
+          map: region,
           emphasis: {
             label: {
               show: true,
             },
           },
+          label: { show: true, fontSize: 10 },
+          zoom: 2,
           data: travelData,
         },
       ],
     });
-  }, [travelData]);
+  }, [travelData, geoData, region]);
 
-  return <Charts options={options} geoData={JapanJson} country={country} />;
+  return (
+    <Charts
+      options={options}
+      geoData={geoData}
+      country={region}
+      handler={handler}
+    />
+  );
 };
 
 export default Map;
