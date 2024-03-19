@@ -55,7 +55,7 @@ export const Charts: React.FC<BaseChartProps> = ({
   useEffect(() => {
     initChart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options]);
+  }, [options, geoData, country]);
 
   return <div ref={chartRef} style={{ height: "100vh", width: "100%" }} />;
 };

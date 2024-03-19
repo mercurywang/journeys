@@ -38,6 +38,10 @@ const Map: React.FC = () => {
     setRegion(_county);
   };
 
+  const handleBack = () => {
+    setRegion("Japan");
+  };
+
   useEffect(() => {
     fetchData(region);
     fetchGeo(region);
@@ -60,9 +64,9 @@ const Map: React.FC = () => {
         {
           left: "right",
           min: 0,
-          max: 5,
+          max: 3,
           inRange: {
-            color: ["#fff", "yellow", "orangered"],
+            color: ["lightyellow", "yellow", "orangered"],
           },
           // text: ["High", "Low"],
           calculable: true,
@@ -91,7 +95,7 @@ const Map: React.FC = () => {
             },
           },
           label: { show: true, fontSize: 10 },
-          zoom: 2,
+          zoom: 1,
           data: travelData,
         },
       ],
@@ -99,12 +103,15 @@ const Map: React.FC = () => {
   }, [travelData, geoData, region]);
 
   return (
-    <Charts
-      options={options}
-      geoData={geoData}
-      country={region}
-      handler={handler}
-    />
+    <div>
+      {region !== "Japan" && <button onClick={handleBack}>Back</button>}
+      <Charts
+        options={options}
+        geoData={geoData}
+        country={region}
+        handler={handler}
+      />
+    </div>
   );
 };
 
