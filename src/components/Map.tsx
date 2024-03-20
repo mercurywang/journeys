@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { EChartOption } from "echarts";
 import { Charts, GeoJson, MapItem } from "./Charts";
-import { getEnName } from "../assets/name_map";
+import { getEnName, getZoom } from "../assets/name_map";
 
 interface TravelData {
   name: string;
@@ -13,6 +13,7 @@ const Map: React.FC = () => {
   const [region, setRegion] = useState("Japan");
   const [geoData, setGeoData] = useState<GeoJson>();
   const [travelData, setTravelData] = useState<TravelData[]>();
+  const [zoom, setZoom] = useState(3);
 
   const fetchData = async (name: string) => {
     try {
@@ -34,12 +35,14 @@ const Map: React.FC = () => {
 
   const handler = (params: MapItem) => {
     const _county = getEnName(params.name);
-    console.log(_county);
+    const _zoom = getZoom(_county);
     setRegion(_county);
+    setZoom(_zoom);
   };
 
   const handleBack = () => {
     setRegion("Japan");
+    setZoom(3);
   };
 
   useEffect(() => {
@@ -49,6 +52,7 @@ const Map: React.FC = () => {
 
   useEffect(() => {
     setOptions({
+      animation: true,
       title: {
         text: "Journeys",
         // subtext: "Data",
@@ -66,7 +70,7 @@ const Map: React.FC = () => {
           min: 0,
           max: 3,
           inRange: {
-            color: ["lightyellow", "yellow", "orangered"],
+            color: ["#EBDEF0", "#C39BD3", "#76448A"],
           },
           // text: ["High", "Low"],
           calculable: true,
@@ -94,17 +98,27 @@ const Map: React.FC = () => {
               show: true,
             },
           },
+          itemStyle: {
+            emphasis: {
+              areaColor: "#76D7C4",
+            },
+          },
           label: { show: true, fontSize: 10 },
-          zoom: 1,
+          zoom,
           data: travelData,
         },
       ],
     });
-  }, [travelData, geoData, region]);
+  }, [travelData, geoData, region, zoom]);
 
   return (
     <div>
-      {region !== "Japan" && <button onClick={handleBack}>Back</button>}
+      <button
+        onClick={handleBack}
+        className={`${region !== "Japan" ? "show" : "hide"}`}
+      >
+        Back
+      </button>
       <Charts
         options={options}
         geoData={geoData}
