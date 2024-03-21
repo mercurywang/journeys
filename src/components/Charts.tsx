@@ -31,31 +31,25 @@ export const Charts: React.FC<BaseChartProps> = ({
   country,
   handler,
 }) => {
-  const chartRef = useRef<HTMLInputElement>(null);
   const [chart, setChart] = useState<ECharts>();
 
-  const handleResize = () => {
-    chart?.resize();
-  };
+  useEffect(() => {
+    const chartDom = document.getElementById("chart");
+    let myChart = echarts.getInstanceByDom(chartDom as HTMLDivElement);
 
-  const initChart = () => {
-    if (chart) {
-      window.removeEventListener("resize", handleResize);
-      chart?.dispose();
+    if (!myChart) {
+      myChart = echarts.init(chartDom);
     }
 
-    const newChart = echarts?.init(chartRef?.current as HTMLDivElement);
     echarts.registerMap(country, geoData);
-    newChart.setOption(options, true);
-    newChart.on("click", handler);
-    window.addEventListener("resize", handleResize);
-    setChart(newChart);
-  };
+    myChart.setOption(options, true);
+    myChart.on("click", handler);
+    setChart(myChart);
 
-  useEffect(() => {
-    initChart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, geoData, country]);
+    return () => {
+      chart?.dispose();
+    };
+  }, [options, geoData, country, handler, chart]);
 
-  return <div ref={chartRef} style={{ height: "100vh", width: "100%" }} />;
+  return <div id="chart" style={{ height: "88vh", width: "100%" }} />;
 };

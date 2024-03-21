@@ -11,15 +11,27 @@ interface MapData {
 export interface MapProps {
   url?: string;
   drillDown?: boolean;
-  range?: [number, number];
+  max?: number;
+  min?: number;
+  light?: string;
+  dark?: string;
+  emphasis?: string;
 }
 
-const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
+const Map: React.FC<MapProps> = ({
+  url = "travel1",
+  drillDown = true,
+  max = 3,
+  min = 0,
+  light = "#F4ECF7",
+  dark = "#76448A",
+  emphasis = "#48C9B0",
+}) => {
   const [options, setOptions] = useState<EChartOption>({});
   const [region, setRegion] = useState("Japan");
   const [geoData, setGeoData] = useState<GeoJson>();
   const [mapData, setMapData] = useState<MapData[]>();
-  const [zoom, setZoom] = useState(3);
+  const [zoom, setZoom] = useState(1.8);
 
   const handler = (params: MapItem) => {
     if (!drillDown) {
@@ -34,7 +46,7 @@ const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
 
   const handleBack = () => {
     setRegion("Japan");
-    setZoom(3);
+    setZoom(1.8);
   };
 
   useEffect(() => {
@@ -63,7 +75,7 @@ const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
     setOptions({
       animation: true,
       title: {
-        text: "Journeys",
+        // text: "",
         // subtext: "Data",
         sublink: "",
         left: "center",
@@ -76,12 +88,11 @@ const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
       visualMap: [
         {
           left: "right",
-          min: range[0],
-          max: range[1],
+          min,
+          max,
           inRange: {
-            color: ["#EBDEF0", "#C39BD3", "#76448A"],
+            color: [light, dark],
           },
-          // text: ["High", "Low"],
           calculable: true,
         },
       ],
@@ -96,6 +107,18 @@ const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
           saveAsImage: {},
         },
       },
+      // geo: {
+      //   select: {
+      //     itemStyle: {
+      //       areaColor: "#A3E4D7",
+      //     },
+      //   },
+      //   regions: [
+      //     {
+      //       name: region,
+      //     },
+      //   ],
+      // },
       series: [
         {
           name: "Journeys",
@@ -109,16 +132,18 @@ const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
           },
           itemStyle: {
             emphasis: {
-              areaColor: "#76D7C4",
+              areaColor: emphasis,
             },
           },
+
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
+          center: region === "Japan" ? [140, 39] : undefined,
         },
       ],
     });
-  }, [mapData, geoData, region, zoom, range]);
+  }, [mapData, geoData, region, zoom, min, max, light, dark, emphasis]);
 
   return (
     <div>
