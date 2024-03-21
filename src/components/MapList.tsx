@@ -21,7 +21,7 @@ const MapList = () => {
       props: {
         url: "travel2",
         light: "#EAF2F8",
-        dark: "#2874A6",
+        dark: "#3498DB",
         emphasis: "#8E44AD",
       },
     },

@@ -24,7 +24,7 @@ const Map: React.FC<MapProps> = ({
   max = 3,
   min = 0,
   light = "#F4ECF7",
-  dark = "#76448A",
+  dark = "#8E44AD",
   emphasis = "#48C9B0",
 }) => {
   const [options, setOptions] = useState<EChartOption>({});
@@ -139,7 +139,7 @@ const Map: React.FC<MapProps> = ({
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
-          center: region === "Japan" ? [140, 39] : undefined,
+          center: region === "Japan" ? [139, 38] : undefined,
         },
       ],
     });
