@@ -32,12 +32,14 @@ const LabTabs: React.FC<LabTabsProps> = ({ tabs = [], tabPanels = [] }) => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} centered>
             {tabs.map((item) => (
-              <Tab label={item.label} value={item.value} />
+              <Tab label={item.label} value={item.value} key={item.value} />
             ))}
           </TabList>
         </Box>
         {tabPanels.map((item) => (
-          <TabPanel value={item.value}>{item.children}</TabPanel>
+          <TabPanel value={item.value} key={item.value}>
+            {item.children}
+          </TabPanel>
         ))}
       </TabContext>
     </Box>

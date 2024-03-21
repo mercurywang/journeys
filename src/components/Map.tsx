@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { EChartOption } from "echarts";
-import { Charts, GeoJson, MapItem } from "./Charts";
+import { Charts, GeoJson, MapItem } from "./basic/Charts";
 import { getEnName, getZoom } from "../assets/name_map";
 
-interface TravelData {
+interface MapData {
   name: string;
   value: number;
 }
@@ -12,13 +12,13 @@ const Map: React.FC = () => {
   const [options, setOptions] = useState<EChartOption>({});
   const [region, setRegion] = useState("Japan");
   const [geoData, setGeoData] = useState<GeoJson>();
-  const [travelData, setTravelData] = useState<TravelData[]>();
+  const [mapData, setMapData] = useState<MapData[]>();
   const [zoom, setZoom] = useState(3);
 
   const fetchData = async (name: string) => {
     try {
       const response = await import(`../assets/mockup_data/${name}.json`);
-      setTravelData(response.default);
+      setMapData(response.default);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -105,11 +105,11 @@ const Map: React.FC = () => {
           },
           label: { show: true, fontSize: 10 },
           zoom,
-          data: travelData,
+          data: mapData,
         },
       ],
     });
-  }, [travelData, geoData, region, zoom]);
+  }, [mapData, geoData, region, zoom]);
 
   return (
     <div>
