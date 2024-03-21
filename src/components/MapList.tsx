@@ -1,37 +1,58 @@
-import Map from "./Map";
-import LabTabs, { TabItem, TabPanelItem } from "./basic/Tabs";
+import Map, { MapProps } from "./Map";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import ButtonGroup from "@mui/material/ButtonGroup";
+
+interface ButtonItem {
+  label: string;
+  props: MapProps;
+}
 
 const MapList = () => {
-  const tabs: TabItem[] = [
+  const [mapProps, setMapProps] = useState<MapProps>({ url: "travel1" });
+  const buttons: ButtonItem[] = [
     {
-      label: "1",
-      value: "1",
+      label: "Travel",
+      props: { url: "travel1" },
     },
     {
-      label: "2",
-      value: "2",
+      label: "Travel",
+      props: { url: "travel2" },
     },
     {
-      label: "3",
-      value: "3",
+      label: "Area",
+      props: { url: "area", range: [1867, 83424.84] },
+    },
+    {
+      label: "Population",
+      props: { url: "population", range: [566000, 13960000] },
     },
   ];
 
-  const panels: TabPanelItem[] = [
-    {
-      children: <Map />,
-      value: "1",
-    },
-    {
-      children: <Map />,
-      value: "2",
-    },
-    {
-      children: <Map />,
-      value: "3",
-    },
-  ];
-  return <LabTabs tabs={tabs} tabPanels={panels} />;
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          "& > *": {
+            m: 1,
+          },
+        }}
+      >
+        <ButtonGroup color="secondary" aria-label="Medium-sized button group">
+          {buttons.map((item, idx) => (
+            <Button key={idx} onClick={() => setMapProps(item.props)}>
+              {item.label}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Box>
+      <Map {...mapProps} />
+    </>
+  );
 };
 
 export default MapList;

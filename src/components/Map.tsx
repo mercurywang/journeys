@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EChartOption } from "echarts";
-import { Charts, GeoJson, MapItem } from "./basic/Charts";
+import { Charts, GeoJson, MapItem } from "./Charts";
 import { getEnName, getZoom } from "../assets/name_map";
 
 interface MapData {
@@ -8,32 +8,24 @@ interface MapData {
   value: number;
 }
 
-const Map: React.FC = () => {
+export interface MapProps {
+  url?: string;
+  drillDown?: boolean;
+  range?: [number, number];
+}
+
+const Map: React.FC<MapProps> = ({ url, drillDown, range = [0, 3] }) => {
   const [options, setOptions] = useState<EChartOption>({});
   const [region, setRegion] = useState("Japan");
   const [geoData, setGeoData] = useState<GeoJson>();
   const [mapData, setMapData] = useState<MapData[]>();
   const [zoom, setZoom] = useState(3);
 
-  const fetchData = async (name: string) => {
-    try {
-      const response = await import(`../assets/mockup_data/${name}.json`);
-      setMapData(response.default);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchGeo = async (name: string) => {
-    try {
-      const response = await import(`../assets/map_data/${name}.json`);
-      setGeoData(response.default);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   const handler = (params: MapItem) => {
+    if (!drillDown) {
+      return;
+    }
+
     const _county = getEnName(params.name);
     const _zoom = getZoom(_county);
     setRegion(_county);
@@ -46,9 +38,26 @@ const Map: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchData = async (name: string) => {
+      try {
+        const response = await import(`../assets/${url}/${name}.json`);
+        setMapData(response.default);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const fetchGeo = async (name: string) => {
+      try {
+        const response = await import(`../assets/map_data/${name}.json`);
+        setGeoData(response.default);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData(region);
     fetchGeo(region);
-  }, [region]);
+  }, [region, url]);
 
   useEffect(() => {
     setOptions({
@@ -67,8 +76,8 @@ const Map: React.FC = () => {
       visualMap: [
         {
           left: "right",
-          min: 0,
-          max: 3,
+          min: range[0],
+          max: range[1],
           inRange: {
             color: ["#EBDEF0", "#C39BD3", "#76448A"],
           },
@@ -109,13 +118,13 @@ const Map: React.FC = () => {
         },
       ],
     });
-  }, [mapData, geoData, region, zoom]);
+  }, [mapData, geoData, region, zoom, range]);
 
   return (
     <div>
       <button
         onClick={handleBack}
-        className={`${region !== "Japan" ? "show" : "hide"}`}
+        className={`${region !== "Japan" && drillDown ? "show" : "hide"}`}
       >
         Back
       </button>
