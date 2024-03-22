@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { EChartOption } from "echarts";
 import { Charts, GeoJson, MapItem } from "./Charts";
 import { getEnName, getZoom } from "../assets/name_map";
+import Button from "@mui/material/Button";
+import ReplyIcon from "@mui/icons-material/Reply";
 
 interface MapData {
   name: string;
@@ -38,7 +40,6 @@ const Map: React.FC<MapProps> = ({
     if (!drillDown) {
       return;
     }
-
     const _county = getEnName(params.name);
     setRegion(_county);
   };
@@ -50,6 +51,15 @@ const Map: React.FC<MapProps> = ({
   };
 
   useEffect(() => {
+    const fetchGeo = async (name: string) => {
+      try {
+        const response = await import(`../assets/map_data/${name}.json`);
+        setGeoData(response.default);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     const fetchData = async (name: string) => {
       try {
         const response = await import(`../assets/${url}/${name}.json`);
@@ -60,22 +70,11 @@ const Map: React.FC<MapProps> = ({
           setCenter([139.42, 35.7]);
         }
       } catch (error) {
-        setRegion("Japan");
-        setZoom(1.8);
-        setCenter([139, 38]);
+        console.log(error);
       }
     };
 
-    const fetchGeo = async (name: string) => {
-      try {
-        const response = await import(`../assets/map_data/${name}.json`);
-        setGeoData(response.default);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData(region);
-    fetchGeo(region);
+    fetchGeo(region).then(() => fetchData(region));
   }, [region, url]);
 
   useEffect(() => {
@@ -83,7 +82,6 @@ const Map: React.FC<MapProps> = ({
       animation: true,
       title: {
         // text: "",
-        // subtext: "Data",
         sublink: "",
         left: "center",
       },
@@ -103,17 +101,6 @@ const Map: React.FC<MapProps> = ({
           calculable: true,
         },
       ],
-      toolbox: {
-        show: true,
-        //orient: 'vertical',
-        left: "left",
-        top: "top",
-        feature: {
-          dataView: { readOnly: false },
-          restore: {},
-          saveAsImage: {},
-        },
-      },
       series: [
         {
           name: "Journeys",
@@ -141,12 +128,16 @@ const Map: React.FC<MapProps> = ({
 
   return (
     <div>
-      <button
+      <Button
         onClick={handleBack}
-        className={`${region !== "Japan" && drillDown ? "show" : "hide"}`}
+        variant="outlined"
+        className={`mt-10 ${region !== "Japan" && drillDown ? "show" : "hide"}`}
+        startIcon={<ReplyIcon />}
+        color={`${url === "travel1" ? "secondary" : "primary"}`}
       >
         Back
-      </button>
+      </Button>
+
       <Charts
         options={options}
         geoData={geoData}

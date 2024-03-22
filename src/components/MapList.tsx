@@ -1,20 +1,32 @@
 import Map, { MapProps } from "./Map";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import ButtonGroup from "@mui/material/ButtonGroup";
-
-interface ButtonItem {
+import { ReactElement, useState } from "react";
+import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
+import SavingsOutlinedIcon from "@mui/icons-material/SavingsOutlined";
+import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
+import SupervisorAccountTwoToneIcon from "@mui/icons-material/SupervisorAccountTwoTone";
+import Tabs from "@mui/material/Tabs";
+import Tab, { TabProps } from "@mui/material/Tab";
+import AppBar from "@mui/material/AppBar";
+interface TabItem extends TabProps {
   label: string;
   props: MapProps;
+  icon: ReactElement;
 }
 
 const MapList = () => {
   const [mapProps, setMapProps] = useState<MapProps>({ url: "travel1" });
-  const buttons: ButtonItem[] = [
+  const [value, setValue] = useState(0);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const buttons: TabItem[] = [
     {
       label: "Travel",
       props: { url: "travel1" },
+      icon: <SavingsTwoToneIcon color="secondary" />,
+      color: "secondary",
     },
     {
       label: "Travel",
@@ -24,6 +36,8 @@ const MapList = () => {
         dark: "#3498DB",
         emphasis: "#8E44AD",
       },
+      icon: <SavingsOutlinedIcon color="primary" />,
+      color: "primary",
     },
     {
       label: "Area",
@@ -36,6 +50,8 @@ const MapList = () => {
         dark: "#239B56",
         emphasis: "rgba(222, 49, 99, 0.6)",
       },
+      icon: <CropOriginalTwoToneIcon color="success" />,
+      color: "success",
     },
     {
       label: "Population",
@@ -48,29 +64,33 @@ const MapList = () => {
         dark: "rgb(222, 49, 99)",
         emphasis: "#FF7F50",
       },
+      icon: <SupervisorAccountTwoToneIcon color="error" />,
+      color: "error",
     },
   ];
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          "& > *": {
-            m: 1,
-          },
-        }}
-      >
-        <ButtonGroup color="secondary" aria-label="Medium-sized button group">
+      <AppBar position="static" color="transparent">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          centered
+          indicatorColor="secondary"
+          textColor="secondary"
+        >
           {buttons.map((item, idx) => (
-            <Button key={idx} onClick={() => setMapProps(item.props)}>
-              {item.label}
-            </Button>
+            <Tab
+              key={idx}
+              // label={item.label}
+              color={item.color}
+              icon={item.icon}
+              onClick={() => setMapProps(item.props)}
+              className="button-width"
+            />
           ))}
-        </ButtonGroup>
-      </Box>
+        </Tabs>
+      </AppBar>
       <Map {...mapProps} />
     </>
   );
