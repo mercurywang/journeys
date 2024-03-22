@@ -66,7 +66,7 @@ export const getZoom = (name: string) => {
     Gunma: 1.1,
     Saitama: 1.1,
     Chiba: 1.3,
-    Tokyo: 1.1,
+    Tokyo: 24,
     Kanagawa: 1.1,
     Niigata: 1.1,
     Toyama: 1.1,
@@ -102,5 +102,5 @@ export const getZoom = (name: string) => {
     Kagoshima: 3,
     Okinawa: 5,
   };
-  return zoomMap[name] || 1;
+  return zoomMap[name] || 1.8;
 };

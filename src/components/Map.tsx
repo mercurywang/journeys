@@ -32,6 +32,7 @@ const Map: React.FC<MapProps> = ({
   const [geoData, setGeoData] = useState<GeoJson>();
   const [mapData, setMapData] = useState<MapData[]>();
   const [zoom, setZoom] = useState(1.8);
+  const [center, setCenter] = useState<[number, number]>([139, 38]);
 
   const handler = (params: MapItem) => {
     if (!drillDown) {
@@ -39,14 +40,13 @@ const Map: React.FC<MapProps> = ({
     }
 
     const _county = getEnName(params.name);
-    const _zoom = getZoom(_county);
     setRegion(_county);
-    setZoom(_zoom);
   };
 
   const handleBack = () => {
     setRegion("Japan");
     setZoom(1.8);
+    setCenter([139, 38]);
   };
 
   useEffect(() => {
@@ -54,8 +54,15 @@ const Map: React.FC<MapProps> = ({
       try {
         const response = await import(`../assets/${url}/${name}.json`);
         setMapData(response.default);
+        const _zoom = getZoom(region);
+        setZoom(_zoom);
+        if (region === "Tokyo") {
+          setCenter([139.42, 35.7]);
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        setRegion("Japan");
+        setZoom(1.8);
+        setCenter([139, 38]);
       }
     };
 
@@ -139,11 +146,11 @@ const Map: React.FC<MapProps> = ({
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
-          center: region === "Japan" ? [139, 38] : undefined,
+          center: region === "Japan" || region === "Tokyo" ? center : undefined,
         },
       ],
     });
-  }, [mapData, geoData, region, zoom, min, max, light, dark, emphasis]);
+  }, [mapData, geoData, region, zoom, min, max, light, dark, emphasis, center]);
 
   return (
     <div>
