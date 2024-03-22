@@ -1,9 +1,9 @@
 import Map, { MapProps } from "./Map";
 import { ReactElement, useState } from "react";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
-import SavingsOutlinedIcon from "@mui/icons-material/SavingsOutlined";
 import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
 import SupervisorAccountTwoToneIcon from "@mui/icons-material/SupervisorAccountTwoTone";
+import PaidTwoToneIcon from "@mui/icons-material/PaidTwoTone";
 import Tabs from "@mui/material/Tabs";
 import Tab, { TabProps } from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
@@ -36,7 +36,7 @@ const MapList = () => {
         dark: "#3498DB",
         emphasis: "#8E44AD",
       },
-      icon: <SavingsOutlinedIcon color="primary" />,
+      icon: <SavingsTwoToneIcon color="primary" />,
       color: "primary",
     },
     {
@@ -66,6 +66,20 @@ const MapList = () => {
       },
       icon: <SupervisorAccountTwoToneIcon color="error" />,
       color: "error",
+    },
+    {
+      label: "GDP",
+      props: {
+        url: "gdp",
+        min: 1893375,
+        max: 115682412,
+        drillDown: false,
+        light: "rgba(0, 205, 171, 0.2)",
+        dark: "rgb(0, 205, 171)",
+        emphasis: "rgb(222, 49, 99)",
+      },
+      icon: <PaidTwoToneIcon color="warning" />,
+      color: "warning",
     },
   ];
 
