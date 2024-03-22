@@ -114,18 +114,6 @@ const Map: React.FC<MapProps> = ({
           saveAsImage: {},
         },
       },
-      // geo: {
-      //   select: {
-      //     itemStyle: {
-      //       areaColor: "#A3E4D7",
-      //     },
-      //   },
-      //   regions: [
-      //     {
-      //       name: region,
-      //     },
-      //   ],
-      // },
       series: [
         {
           name: "Journeys",
@@ -142,7 +130,6 @@ const Map: React.FC<MapProps> = ({
               areaColor: emphasis,
             },
           },
-
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
