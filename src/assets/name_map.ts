@@ -99,8 +99,8 @@ export const getZoom = (name: string) => {
     Kumamoto: 1.1,
     Oita: 1.1,
     Miyazaki: 1.1,
-    Kagoshima: 3,
-    Okinawa: 5,
+    Kagoshima: 5,
+    Okinawa: 6.5,
   };
   return zoomMap[name] || 1.8;
 };

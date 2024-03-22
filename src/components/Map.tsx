@@ -17,17 +17,17 @@ export interface MapProps {
   min?: number;
   light?: string;
   dark?: string;
-  emphasis?: string;
+  // emphasis?: string;
 }
 
 const Map: React.FC<MapProps> = ({
   url = "travel1",
   drillDown = true,
-  max = 3,
+  max = 1,
   min = 0,
   light = "#F4ECF7",
   dark = "#8E44AD",
-  emphasis = "#48C9B0",
+  // emphasis = "#48C9B0",
 }) => {
   const [options, setOptions] = useState<EChartOption>({});
   const [region, setRegion] = useState("Japan");
@@ -68,6 +68,12 @@ const Map: React.FC<MapProps> = ({
         setZoom(_zoom);
         if (region === "Tokyo") {
           setCenter([139.42, 35.7]);
+        }
+        if (region === "Kagoshima") {
+          setCenter([130.557, 31.68]);
+        }
+        if (region === "Okinawa") {
+          setCenter([127.7, 26.48]);
         }
       } catch (error) {
         console.log(error);
@@ -112,19 +118,25 @@ const Map: React.FC<MapProps> = ({
               show: true,
             },
           },
-          itemStyle: {
-            emphasis: {
-              areaColor: emphasis,
-            },
-          },
+          // itemStyle: {
+          //   emphasis: {
+          //     areaColor: emphasis,
+          //   },
+          // },
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
-          center: region === "Japan" || region === "Tokyo" ? center : undefined,
+          center:
+            region === "Japan" ||
+            region === "Tokyo" ||
+            region === "Kagoshima" ||
+            region === "Okinawa"
+              ? center
+              : undefined,
         },
       ],
     });
-  }, [mapData, geoData, region, zoom, min, max, light, dark, emphasis, center]);
+  }, [mapData, geoData, region, zoom, min, max, light, dark, center]);
 
   return (
     <div>

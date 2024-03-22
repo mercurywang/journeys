@@ -1,10 +1,10 @@
 [
   { "name": "横浜市", "value": 1 },
-  { "name": "川崎市", "value": 0 },
+  { "name": "川崎市", "value": 1 },
   { "name": "相模原市", "value": 0 },
   { "name": "横須賀市", "value": 0 },
   { "name": "平塚市", "value": 0 },
-  { "name": "鎌倉市", "value": 0 },
+  { "name": "鎌倉市", "value": 1 },
   { "name": "藤沢市", "value": 1 },
   { "name": "小田原市", "value": 1 },
   { "name": "茅ヶ崎市", "value": 0 },

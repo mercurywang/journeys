@@ -1,7 +1,7 @@
 [
   { "name": "岐阜市", "value": 0 },
   { "name": "大垣市", "value": 0 },
-  { "name": "高山市", "value": 0 },
+  { "name": "高山市", "value": 1 },
   { "name": "多治見市", "value": 0 },
   { "name": "関市", "value": 0 },
   { "name": "中津川市", "value": 0 },
@@ -40,5 +40,5 @@
   { "name": "白川町", "value": 0 },
   { "name": "東白川村", "value": 0 },
   { "name": "御嵩町", "value": 0 },
-  { "name": "白川村", "value": 0 }
+  { "name": "白川村", "value": 1 }
 ]
