@@ -1,7 +1,8 @@
 import Map, { MapProps } from "./Map";
 import { ReactElement, useState } from "react";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
-import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
+// import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
+import MapTwoToneIcon from "@mui/icons-material/MapTwoTone";
 import SupervisorAccountTwoToneIcon from "@mui/icons-material/SupervisorAccountTwoTone";
 import PaidTwoToneIcon from "@mui/icons-material/PaidTwoTone";
 import Tabs from "@mui/material/Tabs";
@@ -39,18 +40,33 @@ const MapList = () => {
       icon: <SavingsTwoToneIcon color="primary" />,
       color: "primary",
     },
+    // {
+    //   label: "Area",
+    //   props: {
+    //     url: "area",
+    //     min: 1867,
+    //     max: 83424.84,
+    //     drillDown: false,
+    //     light: "#EAFAF1",
+    //     dark: "#239B56",
+    //   },
+    //   icon: <CropOriginalTwoToneIcon color="success" />,
+    //   color: "success",
+    // },
     {
-      label: "Area",
+      label: "Region",
       props: {
-        url: "area",
-        min: 1867,
-        max: 83424.84,
+        url: "region",
+        min: 1,
+        max: 7,
         drillDown: false,
-        light: "#EAFAF1",
-        dark: "#239B56",
+        // light: "#28B463",
+        // dark: "#9B59B6",
+        // colors:
+        colors: ["lightskyblue", "yellow", "orangered"],
         // emphasis: "rgba(222, 49, 99, 0.6)",
       },
-      icon: <CropOriginalTwoToneIcon color="success" />,
+      icon: <MapTwoToneIcon color="success" />,
       color: "success",
     },
     {
@@ -76,9 +92,8 @@ const MapList = () => {
         drillDown: false,
         light: "rgba(0, 205, 171, 0.05)",
         dark: "rgb(0, 205, 171)",
-        // emphasis: "rgb(222, 49, 99)",
       },
-      icon: <PaidTwoToneIcon color="warning" />,
+      icon: <PaidTwoToneIcon className="green" />,
       color: "warning",
     },
   ];
@@ -96,7 +111,6 @@ const MapList = () => {
           {buttons.map((item, idx) => (
             <Tab
               key={idx}
-              // label={item.label}
               color={item.color}
               icon={item.icon}
               onClick={() => setMapProps(item.props)}

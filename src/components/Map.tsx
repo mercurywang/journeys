@@ -17,6 +17,7 @@ export interface MapProps {
   min?: number;
   light?: string;
   dark?: string;
+  colors?: string[];
   // emphasis?: string;
 }
 
@@ -27,6 +28,7 @@ const Map: React.FC<MapProps> = ({
   min = 0,
   light = "#F4ECF7",
   dark = "#8E44AD",
+  colors,
   // emphasis = "#48C9B0",
 }) => {
   const [options, setOptions] = useState<EChartOption>({});
@@ -102,7 +104,7 @@ const Map: React.FC<MapProps> = ({
           min,
           max,
           inRange: {
-            color: [light, dark],
+            color: colors || [light, dark],
           },
           calculable: true,
         },
