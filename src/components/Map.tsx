@@ -97,6 +97,10 @@ const Map: React.FC<MapProps> = ({
         trigger: "item",
         showDelay: 0,
         transitionDuration: 0.2,
+        formatter: (hover: any) => {
+          const enName = getEnName(hover.name);
+          return enName === "Japan" ? hover.name : enName;
+        },
       },
       visualMap: [
         {
@@ -138,7 +142,7 @@ const Map: React.FC<MapProps> = ({
         },
       ],
     });
-  }, [mapData, geoData, region, zoom, min, max, light, dark, center]);
+  }, [mapData, geoData, region, zoom, min, max, light, dark, center, colors]);
 
   return (
     <div>
