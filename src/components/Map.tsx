@@ -5,6 +5,17 @@ import { getEnName, getZoom } from "../assets/name_map";
 import Button from "@mui/material/Button";
 import ReplyIcon from "@mui/icons-material/Reply";
 
+const arr = [
+  [
+    [1, 2, 3],
+    ["a", "b", "c"],
+  ],
+  [
+    [4, 5, 6],
+    ["d", "e"],
+  ],
+];
+
 interface MapData {
   name: string;
   value: number;

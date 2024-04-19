@@ -1,5 +1,5 @@
 import Map, { MapProps } from "./Map";
-import { ReactElement, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
 // import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
 import MapTwoToneIcon from "@mui/icons-material/MapTwoTone";
@@ -8,15 +8,19 @@ import PaidTwoToneIcon from "@mui/icons-material/PaidTwoTone";
 import Tabs from "@mui/material/Tabs";
 import Tab, { TabProps } from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
+import Course, { CourseItem, CourseProps } from "./Course";
+
+import courseData from "../assets/courses.json";
 interface TabItem extends TabProps {
   label: string;
-  props: MapProps;
-  icon: ReactElement;
+  props?: MapProps;
+  icon?: ReactElement;
 }
 
 const MapList = () => {
   const [mapProps, setMapProps] = useState<MapProps>({ url: "travel1" });
   const [value, setValue] = useState(0);
+  const [isLastTab, setLastTab] = useState<boolean>(false);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -96,6 +100,7 @@ const MapList = () => {
       icon: <PaidTwoToneIcon className="green" />,
       color: "warning",
     },
+    { label: "Course", icon: <PaidTwoToneIcon /> },
   ];
 
   return (
@@ -113,13 +118,20 @@ const MapList = () => {
               key={idx}
               color={item.color}
               icon={item.icon}
-              onClick={() => setMapProps(item.props)}
+              onClick={() => {
+                if (item.label !== "Course") {
+                  setMapProps(item.props as MapProps);
+                  setLastTab(false);
+                  return;
+                }
+                setLastTab(true);
+              }}
               className="button-width"
             />
           ))}
         </Tabs>
       </AppBar>
-      <Map {...mapProps} />
+      {isLastTab ? <Course items={courseData} /> : <Map {...mapProps} />}
     </>
   );
 };

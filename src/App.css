@@ -13,3 +13,14 @@
 .green {
   color: rgb(0, 205, 171) !important;
 }
+
+.text-left {
+  text-align: left;
+}
+.margin-auto {
+  margin: 3% auto;
+  width: 400px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
