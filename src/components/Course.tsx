@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import { FC } from "react";
 
 export interface CourseItem {
@@ -12,15 +13,14 @@ export interface CourseProps {
 const Course: FC<CourseProps> = ({ items }) => {
   return (
     <div className="text-left margin-auto">
-      {items?.map((item) => (
-        <>
-          <div>{item.schedule}</div>
-          <div
-            dangerouslySetInnerHTML={{ __html: item.content }}
-            className="mb-20"
-          />
-        </>
-      ))}
+      <Grid container spacing={2} rowSpacing={1}>
+        {items?.map((item) => (
+          <Grid item xs={6} className="bordered mb-20">
+            <div>{item.schedule}</div>
+            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

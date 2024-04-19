@@ -1,16 +1,16 @@
 import Map, { MapProps } from "./Map";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, useState } from "react";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
-// import CropOriginalTwoToneIcon from "@mui/icons-material/CropOriginalTwoTone";
 import MapTwoToneIcon from "@mui/icons-material/MapTwoTone";
 import SupervisorAccountTwoToneIcon from "@mui/icons-material/SupervisorAccountTwoTone";
 import PaidTwoToneIcon from "@mui/icons-material/PaidTwoTone";
 import Tabs from "@mui/material/Tabs";
 import Tab, { TabProps } from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
-import Course, { CourseItem, CourseProps } from "./Course";
+import Course from "./Course";
 
 import courseData from "../assets/courses.json";
+import { CalendarMonth } from "@mui/icons-material";
 interface TabItem extends TabProps {
   label: string;
   props?: MapProps;
@@ -39,24 +39,10 @@ const MapList = () => {
         url: "travel2",
         light: "#EAF2F8",
         dark: "#3498DB",
-        // emphasis: "#8E44AD",
       },
       icon: <SavingsTwoToneIcon color="primary" />,
       color: "primary",
     },
-    // {
-    //   label: "Area",
-    //   props: {
-    //     url: "area",
-    //     min: 1867,
-    //     max: 83424.84,
-    //     drillDown: false,
-    //     light: "#EAFAF1",
-    //     dark: "#239B56",
-    //   },
-    //   icon: <CropOriginalTwoToneIcon color="success" />,
-    //   color: "success",
-    // },
     {
       label: "Region",
       props: {
@@ -64,11 +50,7 @@ const MapList = () => {
         min: 1,
         max: 7,
         drillDown: false,
-        // light: "#28B463",
-        // dark: "#9B59B6",
-        // colors:
         colors: ["lightskyblue", "yellow", "orangered"],
-        // emphasis: "rgba(222, 49, 99, 0.6)",
       },
       icon: <MapTwoToneIcon color="success" />,
       color: "success",
@@ -82,7 +64,6 @@ const MapList = () => {
         drillDown: false,
         light: "rgba(222, 49, 99, 0.1)",
         dark: "rgb(222, 49, 99)",
-        // emphasis: "#FF7F50",
       },
       icon: <SupervisorAccountTwoToneIcon color="error" />,
       color: "error",
@@ -100,7 +81,7 @@ const MapList = () => {
       icon: <PaidTwoToneIcon className="green" />,
       color: "warning",
     },
-    { label: "Course", icon: <PaidTwoToneIcon /> },
+    { label: "Course", icon: <CalendarMonth className="orange" /> },
   ];
 
   return (
