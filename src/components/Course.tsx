@@ -1,7 +1,6 @@
 import { FC } from "react";
 
 export interface CourseItem {
-  name: string;
   content: string;
   schedule: string;
 }
@@ -15,9 +14,7 @@ const Course: FC<CourseProps> = ({ items }) => {
     <div className="text-left margin-auto">
       {items?.map((item) => (
         <>
-          <div>
-            {item.schedule}: {item.name}
-          </div>
+          <div>{item.schedule}</div>
           <div
             dangerouslySetInnerHTML={{ __html: item.content }}
             className="mb-20"
