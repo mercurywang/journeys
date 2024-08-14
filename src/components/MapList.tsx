@@ -81,7 +81,6 @@ const MapList = () => {
       icon: <PaidTwoToneIcon className="green" />,
       color: "warning",
     },
-    { label: "Course", icon: <CalendarMonth className="orange" /> },
   ];
 
   return (
