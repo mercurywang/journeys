@@ -7,10 +7,9 @@ import PaidTwoToneIcon from "@mui/icons-material/PaidTwoTone";
 import Tabs from "@mui/material/Tabs";
 import Tab, { TabProps } from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
-import Course from "./Course";
-
-import courseData from "../assets/courses.json";
-import { CalendarMonth } from "@mui/icons-material";
+// import Course from "./Course";
+// import courseData from "../assets/courses.json";
+import Record from "./Record";
 interface TabItem extends TabProps {
   label: string;
   props?: MapProps;
@@ -68,16 +67,21 @@ const MapList = () => {
       icon: <SupervisorAccountTwoToneIcon color="error" />,
       color: "error",
     },
+    // {
+    //   label: "GDP",
+    //   props: {
+    //     url: "gdp",
+    //     min: 1893375,
+    //     max: 115682412,
+    //     drillDown: false,
+    //     light: "rgba(0, 205, 171, 0.05)",
+    //     dark: "rgb(0, 205, 171)",
+    //   },
+    //   icon: <PaidTwoToneIcon className="green" />,
+    //   color: "warning",
+    // },
     {
-      label: "GDP",
-      props: {
-        url: "gdp",
-        min: 1893375,
-        max: 115682412,
-        drillDown: false,
-        light: "rgba(0, 205, 171, 0.05)",
-        dark: "rgb(0, 205, 171)",
-      },
+      label: "RECORDS",
       icon: <PaidTwoToneIcon className="green" />,
       color: "warning",
     },
@@ -99,7 +103,7 @@ const MapList = () => {
               color={item.color}
               icon={item.icon}
               onClick={() => {
-                if (item.label !== "Course") {
+                if (item.label !== "RECORDS") {
                   setMapProps(item.props as MapProps);
                   setLastTab(false);
                   return;
@@ -111,7 +115,8 @@ const MapList = () => {
           ))}
         </Tabs>
       </AppBar>
-      {isLastTab ? <Course items={courseData} /> : <Map {...mapProps} />}
+      {/* {isLastTab ? <Course items={courseData} /> : <Map {...mapProps} />} */}
+      {isLastTab ? <Record /> : <Map {...mapProps} />}
     </>
   );
 };
