@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Charts } from "./Charts";
 import * as echarts from "echarts/core";
 import {
   TitleComponent,
@@ -34,11 +33,6 @@ echarts.use([
   CanvasRenderer,
   UniversalTransition,
 ]);
-
-interface RecordData {
-  date: string;
-  days: number;
-}
 
 type EChartsOption = echarts.ComposeOption<
   | TitleComponentOption
@@ -100,8 +94,13 @@ const Map: React.FC = () => {
         type: "category",
         boundaryGap: false,
         data: dateArray,
+        axisLabel: {
+          interval: 0, // 强制显示所有标签
+        },
       },
       yAxis: {
+        min: 25,
+        max: 50,
         type: "value",
         axisLabel: {
           formatter: "{value} days",
@@ -112,6 +111,12 @@ const Map: React.FC = () => {
           name: "Periods",
           type: "line",
           data: daysArray,
+          lineStyle: {
+            color: "#e2acf8",
+          },
+          itemStyle: {
+            color: "#c54af8",
+          },
           markPoint: {
             data: [
               { type: "max", name: "Max" },
