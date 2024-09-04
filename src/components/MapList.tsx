@@ -80,7 +80,7 @@ const buttons: TabItem[] = [
 
 const MapList = () => {
   const [value, setValue] = useState(0);
-  const [lastTab, setLastTab] = useState(true);
+  const [lastTab, setLastTab] = useState(false);
   const [mapProps, setMapProps] = useState<MapProps | null>({ url: "travel1" });
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
