@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { FC } from "react";
 
 export interface CourseItem {
-  content: string;
+  explanation: string;
   schedule: string;
 }
 
@@ -17,7 +17,7 @@ const Course: FC<CourseProps> = ({ items }) => {
         {items?.map((item) => (
           <Grid item xs={6} className="bordered mb-20">
             <div>{item.schedule}</div>
-            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+            <div dangerouslySetInnerHTML={{ __html: item.explanation }} />
           </Grid>
         ))}
       </Grid>
