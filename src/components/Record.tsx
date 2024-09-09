@@ -45,6 +45,21 @@ type EChartsOption = echarts.ComposeOption<
   | LineSeriesOption
 >;
 
+const calculateDaysDifference = (inputDate: string) => {
+  const today = new Date();
+  const [month, day] = inputDate.split("/").map(Number);
+  const year =
+    month > today.getMonth() + 1
+      ? today.getFullYear() - 1
+      : today.getFullYear();
+
+  const startDate = new Date(year, month - 1, day);
+  const diffInTime = today.getTime() - startDate.getTime();
+  const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+
+  return diffInDays;
+};
+
 const Map: React.FC = () => {
   const [chart, setChart] = useState<echarts.ECharts>();
   const [options, setOptions] = useState<EChartsOption>({});
@@ -55,8 +70,10 @@ const Map: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await import(`../assets/record.json`);
-        const _days = response.default.map((item) => item.days);
         const _date = response.default.map((item) => item.date);
+        const _days = response.default.map(
+          (item) => item.days || calculateDaysDifference(item.date)
+        );
         setDaysArray(_days);
         setDateArray(_date);
       } catch (error) {
