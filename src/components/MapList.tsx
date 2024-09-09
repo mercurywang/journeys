@@ -7,7 +7,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
 import Course from "./Course";
-import courseData from "../assets/courses/c1.json";
 import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
 import TranslateTwoToneIcon from "@mui/icons-material/TranslateTwoTone";
 import Record from "./Record";
@@ -83,7 +82,7 @@ const items: TabItem[] = [
   {
     label: "Course",
     icon: <TranslateTwoToneIcon className="green" />,
-    children: <Course items={courseData} />,
+    children: <Course />,
     color: "warning",
   },
   {
