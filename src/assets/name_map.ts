@@ -49,7 +49,7 @@ export const getEnName = (name: string) => {
     沖縄県: "Okinawa",
   };
 
-  return countyMap[name] || "Japan";
+  return countyMap[name] || "";
 };
 
 export const getZoom = (name: string) => {

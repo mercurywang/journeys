@@ -43,7 +43,10 @@ const Map: React.FC<MapProps> = ({
       return;
     }
     const _county = getEnName(params.name);
-    setRegion(_county);
+    if (_county) {
+      setRegion(_county);
+      return;
+    }
   };
 
   const handleBack = () => {
@@ -98,8 +101,8 @@ const Map: React.FC<MapProps> = ({
         showDelay: 0,
         transitionDuration: 0.2,
         formatter: (hover: any) => {
-          const enName = getEnName(hover.name);
-          return enName === "Japan" ? hover.name : enName;
+          const enName = getEnName(hover.name) || hover.name;
+          return enName;
         },
       },
       visualMap: [
