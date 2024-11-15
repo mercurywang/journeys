@@ -111,13 +111,13 @@ const Map: React.FC = () => {
         type: "category",
         boundaryGap: false,
         data: dateArray,
-        axisLabel: {
-          interval: 0, // 强制显示所有标签
-        },
+        // axisLabel: {
+        //   interval: 0, // 强制显示所有标签
+        // },
       },
       yAxis: {
-        min: 25,
-        max: 50,
+        min: 20,
+        max: 60,
         type: "value",
         axisLabel: {
           formatter: "{value} days",
@@ -125,7 +125,7 @@ const Map: React.FC = () => {
       },
       series: [
         {
-          name: "Periods",
+          name: "record",
           type: "line",
           data: daysArray,
           lineStyle: {
