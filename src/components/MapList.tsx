@@ -53,9 +53,17 @@ const items: TabItem[] = [
         {...{
           url: "region",
           min: 1,
-          max: 7,
+          max: 10,
           drillDown: false,
-          colors: ["lightskyblue", "yellow", "orangered"],
+          colors: [
+            "lightskyblue", // 浅蓝
+            "#90EE90", // 绿
+            "yellow", // 黄
+            "#FFA500", // 橙
+            "pink", // 粉
+            "#DDA0DD", // 浅紫色
+            "orangered", // 红
+          ],
         }}
       />
     ),
