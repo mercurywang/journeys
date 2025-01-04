@@ -1,5 +1,5 @@
 [
-  { "name": "和歌山市", "value": 0 },
+  { "name": "和歌山市", "value": 1 },
   { "name": "海南市", "value": 0 },
   { "name": "橋本市", "value": 0 },
   { "name": "有田市", "value": 0 },
@@ -21,7 +21,7 @@
   { "name": "印南町", "value": 0 },
   { "name": "みなべ町", "value": 0 },
   { "name": "日高川町", "value": 0 },
-  { "name": "白浜町", "value": 0 },
+  { "name": "白浜町", "value": 1 },
   { "name": "上富田町", "value": 0 },
   { "name": "すさみ町", "value": 0 },
   { "name": "那智勝浦町", "value": 0 },

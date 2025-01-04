@@ -28,7 +28,7 @@
   { "name": "大阪府", "value": 1 },
   { "name": "兵庫県", "value": 0 },
   { "name": "奈良県", "value": 1 },
-  { "name": "和歌山県", "value": 0 },
+  { "name": "和歌山県", "value": 1 },
   { "name": "鳥取県", "value": 0 },
   { "name": "島根県", "value": 0 },
   { "name": "岡山県", "value": 0 },
