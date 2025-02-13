@@ -116,8 +116,8 @@ const Map: React.FC = () => {
         // },
       },
       yAxis: {
-        min: 20,
-        max: 60,
+        min: 0,
+        max: 80,
         type: "value",
         axisLabel: {
           formatter: "{value} days",
