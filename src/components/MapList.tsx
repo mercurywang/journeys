@@ -7,9 +7,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
 import Course from "./Course";
-import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
+// import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
 import TranslateTwoToneIcon from "@mui/icons-material/TranslateTwoTone";
-import Record from "./Record";
+// import Record from "./Record";
 interface TabItem {
   label: string;
   children?: ReactNode;
@@ -93,12 +93,12 @@ const items: TabItem[] = [
     children: <Course />,
     color: "warning",
   },
-  {
-    label: "Records",
-    icon: <CircleTwoToneIcon className="pink" />,
-    children: <Record />,
-    color: "warning",
-  },
+  // {
+  //   label: "Records",
+  //   icon: <CircleTwoToneIcon className="pink" />,
+  //   children: <Record />,
+  //   color: "warning",
+  // },
 ];
 
 const MapList = () => {
