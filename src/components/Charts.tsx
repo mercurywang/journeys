@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import { EChartOption, ECharts } from "echarts";
 
@@ -31,25 +31,47 @@ export const Charts: React.FC<BaseChartProps> = ({
   country,
   handler,
 }) => {
-  const [chart, setChart] = useState<ECharts>();
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstanceRef = useRef<ECharts | null>(null);
 
   useEffect(() => {
-    const chartDom = document.getElementById("chart");
-    let myChart = echarts.getInstanceByDom(chartDom as HTMLDivElement);
+    if (!chartRef.current) return;
 
-    if (!myChart) {
-      myChart = echarts.init(chartDom);
+    // 清理现有实例
+    if (chartInstanceRef.current) {
+      if (!chartInstanceRef.current.isDisposed()) {
+        chartInstanceRef.current.dispose();
+      }
+      chartInstanceRef.current = null;
     }
 
+    // 创建新实例
+    const myChart = echarts.init(chartRef.current);
+    chartInstanceRef.current = myChart;
+
+    // 注册地图和设置选项
     echarts.registerMap(country, geoData);
     myChart.setOption(options, true);
     myChart.on("click", handler);
-    setChart(myChart);
 
+    // 清理函数
     return () => {
-      chart?.dispose();
+      if (chartInstanceRef.current && !chartInstanceRef.current.isDisposed()) {
+        chartInstanceRef.current.dispose();
+        chartInstanceRef.current = null;
+      }
     };
-  }, [options, geoData, country, handler, chart]);
+  }, [options, geoData, country, handler]);
 
-  return <div id="chart" style={{ height: "88vh", width: "100%" }} />;
+  // 组件卸载时的最终清理
+  useEffect(() => {
+    return () => {
+      if (chartInstanceRef.current && !chartInstanceRef.current.isDisposed()) {
+        chartInstanceRef.current.dispose();
+        chartInstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  return <div ref={chartRef} style={{ height: "88vh", width: "100%" }} />;
 };
