@@ -20,7 +20,7 @@
   { "name": "板橋区", "value": 0 },
   { "name": "練馬区", "value": 1 },
   { "name": "足立区", "value": 1 },
-  { "name": "葛飾区", "value": 0 },
+  { "name": "葛飾区", "value": 1 },
   { "name": "江戸川区", "value": 0 },
   { "name": "八王子市", "value": 0 },
   { "name": "立川市", "value": 1 },
