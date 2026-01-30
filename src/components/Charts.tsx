@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import * as echarts from "echarts";
-import { EChartOption, ECharts } from "echarts";
+import type { EChartOption, ECharts } from "echarts";
 
 interface Property {
   name: string;
@@ -25,7 +25,7 @@ type BaseChartProps = {
   handler: (params: MapItem) => void;
 };
 
-export const Charts: React.FC<BaseChartProps> = ({
+const ChartsComponent: React.FC<BaseChartProps> = ({
   options,
   geoData = {},
   country,
@@ -38,12 +38,7 @@ export const Charts: React.FC<BaseChartProps> = ({
     if (!chartRef.current) return;
 
     // 清理现有实例
-    if (chartInstanceRef.current) {
-      if (!chartInstanceRef.current.isDisposed()) {
-        chartInstanceRef.current.dispose();
-      }
-      chartInstanceRef.current = null;
-    }
+    chartInstanceRef.current?.dispose();
 
     // 创建新实例
     const myChart = echarts.init(chartRef.current);
@@ -54,24 +49,20 @@ export const Charts: React.FC<BaseChartProps> = ({
     myChart.setOption(options, true);
     myChart.on("click", handler);
 
+    // 窗口大小变化时自动调整
+    const handleResize = () => myChart.resize();
+    window.addEventListener("resize", handleResize);
+
     // 清理函数
     return () => {
-      if (chartInstanceRef.current && !chartInstanceRef.current.isDisposed()) {
-        chartInstanceRef.current.dispose();
-        chartInstanceRef.current = null;
-      }
+      window.removeEventListener("resize", handleResize);
+      chartInstanceRef.current?.dispose();
+      chartInstanceRef.current = null;
     };
   }, [options, geoData, country, handler]);
 
-  // 组件卸载时的最终清理
-  useEffect(() => {
-    return () => {
-      if (chartInstanceRef.current && !chartInstanceRef.current.isDisposed()) {
-        chartInstanceRef.current.dispose();
-        chartInstanceRef.current = null;
-      }
-    };
-  }, []);
-
   return <div ref={chartRef} style={{ height: "88vh", width: "100%" }} />;
 };
+
+// 使用 memo 避免不必要的重渲染
+export const Charts = memo(ChartsComponent);

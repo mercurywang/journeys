@@ -34,7 +34,7 @@ const TabPanel = (props: TabPanelProps) => {
 const Course: FC = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   return (
@@ -50,8 +50,8 @@ const Course: FC = () => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <Grid container spacing={2} rowSpacing={1} rowGap={4}>
-          {n4Data?.map((item) => (
-            <Grid item xs={6} className="bordered">
+          {n4Data?.map((item, idx) => (
+            <Grid item xs={6} className="bordered" key={`n4-${idx}`}>
               <div>{item.schedule}</div>
               <div dangerouslySetInnerHTML={{ __html: item.explanation }} />
             </Grid>
@@ -61,7 +61,7 @@ const Course: FC = () => {
       <TabPanel value={value} index={1}>
         <Grid container spacing={2} rowSpacing={1} rowGap={4}>
           {n3Data?.map((item, idx) => (
-            <Grid item xs={6} className="bordered">
+            <Grid item xs={6} className="bordered" key={`n3-${idx}`}>
               <div>{item.schedule}</div>
               <div dangerouslySetInnerHTML={{ __html: item.explanation }} />
             </Grid>

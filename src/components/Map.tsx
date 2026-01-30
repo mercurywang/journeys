@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { EChartOption } from "echarts";
 import { Charts, GeoJson, MapItem } from "./Charts";
-import { getEnName, getZoom } from "../assets/name_map";
+import { getEnName, getZoom, getCenter } from "../assets/name_map";
 import Button from "@mui/material/Button";
 import ReplyIcon from "@mui/icons-material/Reply";
 
@@ -29,31 +29,28 @@ const Map: React.FC<MapProps> = ({
   light = "#F4ECF7",
   dark = "#8E44AD",
   colors,
-  // emphasis = "#48C9B0",
 }) => {
-  const [options, setOptions] = useState<EChartOption>({});
   const [region, setRegion] = useState("Japan");
   const [geoData, setGeoData] = useState<GeoJson>();
   const [mapData, setMapData] = useState<MapData[]>();
-  const [zoom, setZoom] = useState(1.8);
-  const [center, setCenter] = useState<[number, number]>([139, 38]);
 
-  const handler = (params: MapItem) => {
-    if (!drillDown) {
-      return;
-    }
-    const _county = getEnName(params.name);
-    if (_county) {
-      setRegion(_county);
-      return;
-    }
-  };
+  // 使用 useCallback 避免 handler 函数重复创建
+  const handler = useCallback(
+    (params: MapItem) => {
+      if (!drillDown) return;
+      const _county = getEnName(params.name);
+      if (_county) setRegion(_county);
+    },
+    [drillDown],
+  );
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setRegion("Japan");
-    setZoom(1.8);
-    setCenter([139, 38]);
-  };
+  }, []);
+
+  // 从配置获取 zoom 和 center
+  const zoom = useMemo(() => getZoom(region), [region]);
+  const center = useMemo(() => getCenter(region), [region]);
 
   useEffect(() => {
     const fetchGeo = async (name: string) => {
@@ -61,7 +58,7 @@ const Map: React.FC<MapProps> = ({
         const response = await import(`../assets/map_data/${name}.json`);
         setGeoData(response.default);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching geo data:", error);
       }
     };
 
@@ -69,30 +66,19 @@ const Map: React.FC<MapProps> = ({
       try {
         const response = await import(`../assets/${url}/${name}.json`);
         setMapData(response.default);
-        const _zoom = getZoom(region);
-        setZoom(_zoom);
-        if (region === "Tokyo") {
-          setCenter([139.42, 35.7]);
-        }
-        if (region === "Kagoshima") {
-          setCenter([130.557, 31.68]);
-        }
-        if (region === "Okinawa") {
-          setCenter([127.7, 26.48]);
-        }
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching map data:", error);
       }
     };
 
     fetchGeo(region).then(() => fetchData(region));
   }, [region, url]);
 
-  useEffect(() => {
-    setOptions({
+  // 使用 useMemo 优化 options，避免不必要的重新计算
+  const options = useMemo<EChartOption>(
+    () => ({
       animation: true,
       title: {
-        // text: "",
         sublink: "",
         left: "center",
       },
@@ -100,9 +86,9 @@ const Map: React.FC<MapProps> = ({
         trigger: "item",
         showDelay: 0,
         transitionDuration: 0.2,
-        formatter: (hover: any) => {
-          const enName = getEnName(hover.name) || hover.name;
-          return enName;
+        formatter: (hover) => {
+          const name = (hover as { name?: string }).name || "";
+          return getEnName(name) || name;
         },
       },
       visualMap: [
@@ -127,25 +113,15 @@ const Map: React.FC<MapProps> = ({
               show: true,
             },
           },
-          // itemStyle: {
-          //   emphasis: {
-          //     areaColor: emphasis,
-          //   },
-          // },
           label: { show: true, fontSize: 10 },
           zoom,
           data: mapData,
-          center:
-            region === "Japan" ||
-            region === "Tokyo" ||
-            region === "Kagoshima" ||
-            region === "Okinawa"
-              ? center
-              : undefined,
+          center,
         },
       ],
-    });
-  }, [mapData, geoData, region, zoom, min, max, light, dark, center, colors]);
+    }),
+    [mapData, region, zoom, min, max, light, dark, center, colors],
+  );
 
   return (
     <div>

@@ -1,15 +1,23 @@
-import Map from "./Map";
-import { ReactElement, ReactNode, useState } from "react";
+import { lazy, Suspense, ReactElement, ReactNode, useState } from "react";
 import SavingsTwoToneIcon from "@mui/icons-material/SavingsTwoTone";
 import MapTwoToneIcon from "@mui/icons-material/MapTwoTone";
 import SupervisorAccountTwoToneIcon from "@mui/icons-material/SupervisorAccountTwoTone";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
-import Course from "./Course";
-// import CircleTwoToneIcon from "@mui/icons-material/CircleTwoTone";
+import CircularProgress from "@mui/material/CircularProgress";
 import TranslateTwoToneIcon from "@mui/icons-material/TranslateTwoTone";
-// import Record from "./Record";
+
+// 懒加载组件，优化首屏加载
+const Map = lazy(() => import("./Map"));
+const Course = lazy(() => import("./Course"));
+
+// 加载中占位组件
+const Loading = () => (
+  <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}>
+    <CircularProgress />
+  </div>
+);
 interface TabItem {
   label: string;
   children?: ReactNode;
@@ -129,7 +137,7 @@ const MapList = () => {
           ))}
         </Tabs>
       </AppBar>
-      {items[value]?.children}
+      <Suspense fallback={<Loading />}>{items[value]?.children}</Suspense>
     </>
   );
 };

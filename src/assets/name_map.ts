@@ -104,3 +104,14 @@ export const getZoom = (name: string) => {
   };
   return zoomMap[name] || 1.8;
 };
+
+// 特殊区域的地图中心坐标配置
+export const getCenter = (name: string): [number, number] | undefined => {
+  const centerMap: { [key: string]: [number, number] } = {
+    Japan: [139, 38],
+    Tokyo: [139.42, 35.7],
+    Kagoshima: [130.557, 31.68],
+    Okinawa: [127.7, 26.48],
+  };
+  return centerMap[name];
+};
