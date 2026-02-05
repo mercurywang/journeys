@@ -6,11 +6,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
 import CircularProgress from "@mui/material/CircularProgress";
-import TranslateTwoToneIcon from "@mui/icons-material/TranslateTwoTone";
 
 // 懒加载组件，优化首屏加载
 const Map = lazy(() => import("./Map"));
-const Course = lazy(() => import("./Course"));
 
 // 加载中占位组件
 const Loading = () => (
@@ -95,18 +93,6 @@ const items: TabItem[] = [
     icon: <SupervisorAccountTwoToneIcon color="error" />,
     color: "error",
   },
-  {
-    label: "Course",
-    icon: <TranslateTwoToneIcon className="green" />,
-    children: <Course />,
-    color: "warning",
-  },
-  // {
-  //   label: "Records",
-  //   icon: <CircleTwoToneIcon className="pink" />,
-  //   children: <Record />,
-  //   color: "warning",
-  // },
 ];
 
 const MapList = () => {
